@@ -1,0 +1,14 @@
+var ProfileDef=require('./model/profile'); //important  - >>>do not give extension
+//This is dummy profile ,,,,,,,,,,,,,,,,,,,,,,,,,
+var pofile1=new ProfileDef("Nagendra kumar","test12","nagen@gmail.com","Male","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvlRriLVd11QaMe0suGWewi2AjP4X9tI55All09seJrBQqcKTEig");
+var pofile2=new ProfileDef("Ameya kumar","tes6t12","ameya@gmail.com","Male","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvlRriLVd11QaMe0suGWewi2AjP4X9tI55All09seJrBQqcKTEig");
+var pofile3=new ProfileDef("Rocker","te345st12","rocker@gmail.com","Male","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRU1gJrTqXMz_DO0hDOyo2cMMJ76hmIfrTMA5mCalphghLhxkTj");
+var pofile4=new ProfileDef("Jacker","te5st12","jacker@gmail.com","Male","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvlRriLVd11QaMe0suGWewi2AjP4X9tI55All09seJrBQqcKTEig");
+var pofile5=new ProfileDef("Reeta","tes67t12","reeta@gmail.com","Female","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMqFbOPufHnWG7kvWHZysmcqJR3PJHgmYPioMlMJaJd9mjQB8J");
+ //
+ var profiles=[];
+ profiles.push(pofile1);
+ profiles.push(pofile2);
+ profiles.push(pofile3);
+ profiles.push(pofile4);
+ profiles.push(pofile5);

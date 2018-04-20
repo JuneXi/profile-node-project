@@ -35,9 +35,26 @@
   			}});
   		}
   
-  		function openProfileModel() {
+  		//html();  - button , div,span 
+  		function openProfileModel(flag=0) {
+  			if(flag!=0) {
+  				$("#bname").html("Update Profile");
+  				$("#_id").val(flag);
+  				$.getJSON("http://localhost:3000/profile?_id="+flag, function(profile) {
+  					  console.log(profile);
+  					  $("#username").val(profile.username);
+  					$("#password").val(profile.password);
+  					$("#email").val(profile.email);
+  					$("#photo").val(profile.photo);
+  					$("#gender").val(profile.gender);
+  					$("#myphoto").attr("src",profile.photo);
+  				});
+  				
+  			}
   			$('#addProfileModal').modal('show');
   		}
+  		
+  		
   
   		//This is called ready handler
   		////fetch("http://localhost:3000/profiles").then(res=>res.json()).then(data=>console.log(data));
@@ -57,7 +74,7 @@
 				    	   tempData=tempData+'<td>&nbsp;'+item.email+'</td>';
 				    	   tempData=tempData+'<td>&nbsp;'+item.gender+'</td>';
 				    	   tempData=tempData+'<td>&nbsp;<img src="'+item.photo+'" style="height:40px;"/></td>';
-				    	   tempData=tempData+'<td>&nbsp;<img src="img/delete.png" style="height:40px;"/>/<img src="img/edit.png" style="height:40px;"/></td>';
+				    	   tempData=tempData+'<td>&nbsp;<img src="img/delete.png" style="height:40px;"/>/<a href="javascript:openProfileModel(\''+item._id+'\')"><img src="img/edit.png" style="height:40px;"/></a></td>';
 				    	   tempData=tempData+'</tr>';
 				    	   count++;
 			      }	   
@@ -215,6 +232,7 @@
         </div>
         <div class="modal-body">
         		<div class="form-group">
+        				<input type="hidden"	class="form-control" name="_id"  id="_id"/>
 						<label for="tusername">Username</label> 
 						<input type="text"	class="form-control" name="username"  id="username">
 					</div>
