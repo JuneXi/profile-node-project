@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Profile Page</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+  <script type="text/javascript">
+  
+  function deleteProfile(pid){
+	  ////////////
+		var xhttp=new XMLHttpRequest();
+		//login = this is url-pattern of the servlet
+		 xhttp.onreadystatechange =function() {
+					if (this.readyState == 4 && this.status == 200) { //this.readyState == 4 && this.status == 200 ->> data has come at client side successfully
+							//text data as a json coming from server  
+						var response=this.responseText;  //this.responseText ->> is response coming from servlet url-pattern
+						if(response=='success') {
+									  ////////////////////
+									 // alert("Hey! do not delete me!   pid = "+pid);
+									    //below is decreament
+									 	document.getElementById(pid).style.display = 'none';    
+									   var cor=document.getElementById("noOfRecord").innerHTML;
+									   cor=parseInt(cor)-1;
+								      document.getElementById("noOfRecord").innerHTML=cor;
+									  document.getElementById("ApplicationMessage").innerHTML="Profile has been deleted successfully!!!!!!!!!!";
+						}else{
+							  document.getElementById("ApplicationMessage").innerHTML="Sorry profile has not been deleted!!!!!!!!!!";
+						}
+					}	
+		};			
+	   xhttp.open("GET", "deleteProfile?pid="+pid, true);  //true - I want to make asynchronous call
+	   xhttp.send(); //go ahead!
+	
+  }
+  
+  function loadingData() {
+	//Now we have to make ajax .................................
+	//XMLHttpRequest - this is used to make an AJAX call
+	var xhttp=new XMLHttpRequest();
+	//login = this is url-pattern of the servlet
+	 xhttp.onreadystatechange =function() {
+		if (this.readyState == 4 && this.status == 200) { //this.readyState == 4 && this.status == 200 ->> data has come at client side successfully
+					//text data as a json coming from server  
+					var jsonProfile=this.responseText;  //this.responseText ->> is response coming from servlet url-pattern
+				     //JSON data as string or text
+				     //covert json data into JavaScript object
+				     //profiles === JavaScript object in memory
+				     //profiles ->>Array of JavaScript 
+				      var profiles=JSON.parse(jsonProfile);
+				       console.log(profiles.length);
+				       var tempData="";
+				       var count=1;
+				      for(var x=0;x<profiles.length;x++) {
+				    	   var item=profiles[x];
+				    	   console.log(item);
+				    	   tempData=tempData+'<tr   id="'+item.pid+'">';
+				    	   tempData=tempData+'<td>&nbsp;'+count+'</td>';
+				    	   tempData=tempData+'<td>&nbsp;'+item.username+'</td>';
+				    	   tempData=tempData+'<td>&nbsp;'+item.password+'</td>';
+				    	   tempData=tempData+'<td>&nbsp;'+item.email+'</td>';
+				    	   tempData=tempData+'<td>&nbsp;'+item.gender+'</td>';
+				    	   tempData=tempData+'<td>&nbsp;<img src="'+item.image+'" style="height:50px;"></td>';
+				    	   tempData=tempData+'<td>&nbsp;<a href="javascript:deleteProfile('+item.pid+');"><img src="img/delete.png" style="height:40px;"/><a><a href="javascript:editProfileModal('+item.pid+');"><img src="img/edit.png" style="height:40px;"/></a></td>';
+				    	   tempData=tempData+'</tr>';
+				    	   count++;
+				      }
+				      document.getElementById("noOfRecord").innerHTML=count-1;
+				     /*  tempData=tempData+' <tr>';
+				      tempData=tempData+'<td>&nbsp;</td>';
+				      tempData=tempData+'<td>&nbsp;</td>';
+				      tempData=tempData+'<td>&nbsp;</td>';
+				      tempData=tempData+'<td>&nbsp;</td>';
+				      tempData=tempData+'<td>&nbsp;</td>';
+				      tempData=tempData+'<td>&nbsp;</td>';
+				      tempData=tempData+'<td>&nbsp;</td>';
+				      tempData=tempData+'</tr>';
+				      tempData=tempData+'<tr>';
+				      tempData=tempData+'<td>&nbsp;</td>';
+				      tempData=tempData+'<td>&nbsp;</td>';
+				      tempData=tempData+'<td>&nbsp;</td>';
+				      tempData=tempData+'<td>&nbsp;</td>';
+				      tempData=tempData+'<td>&nbsp;</td>';
+				      tempData=tempData+'<td>&nbsp;</td>';
+				      tempData=tempData+'<td>&nbsp;</td>';
+				      tempData=tempData+'</tr>'; */
+				      
+				      document.getElementById("myContents").innerHTML=tempData;
+		}
+	};
+	//hibernate.cfg.xml - >> 
+	// xhttp.open("GET", "ok.js", true);
+	//jsonProfile - this is url pattern for servlet
+    xhttp.open("GET", "jsonProfile", true);  //true - I want to make asynchronous call
+    xhttp.send(); //go ahead!
+  }
+  
+  function editProfileModal(pid=0) {
+	  	//addProfileModal - id of the model which we have given
+	  	//We have to reset our form at the time of opening the model
+	  	//document.addProfileForm.submit();
+	  	//Reset the form elements values using JavaScript code
+	  	//document.addProfileForm..reset();
+	  	document.getElementById("title").innerHTML="Edit Profile Page";
+	  	document.getElementById("bname").innerHTML="Update";
+	  	
+	  	//row is poiting to the particular row
+	  	var row = document.getElementById(pid);
+		
+	  	//This for name
+	  	var col1 = row.cells[1];
+		var username=col1.innerHTML;
+		username=username.replace('&nbsp;', '');
+	  	document.getElementById("username").value=username;
+	  	
+	  	
+		var col2 = row.cells[2];
+		var password=col2.innerHTML;
+		password=password.replace('&nbsp;', '');
+	  	document.getElementById("password").value=password;
+	  	
+	  	var col3 = row.cells[3];
+		var email=col3.innerHTML;
+		email=email.replace('&nbsp;', '');
+	  	document.getElementById("email").value=email;
+	  	
+		var col5 = row.cells[5];
+		var image=col5.innerHTML;
+		image=image.replace('&nbsp;', '');
+		console.log(image);
+		
+		var index=image.indexOf("src=");
+		index=index+5;
+		image=image.substring(index);
+		console.log(image);
+		image=image.substring(0,image.indexOf('"'));
+		document.getElementById("image").value=image;
+		document.getElementById("myphoto").src=image;
+	  	
+	  	if(pid==0) {
+	  		document.getElementById("addProfileForm").reset();
+	  	}
+	 	$('#addProfileModal').modal('show');
+}
+  
+  function openProfileModal() {
+	  	//addProfileModal - id of the model which we have given
+	  	//We have to reset our form at the time of opening the model
+	  	//document.addProfileForm.submit();
+	  	//Reset the form elements values using JavaScript code
+	  	//document.addProfileForm..reset();
+	  	document.getElementById("addProfileForm").reset();
+	 	$('#addProfileModal').modal('show');
+  }
+  
+  function uploadProfile(){
+	  //collect all the data which you want to send to the server using AJAX
+	  var username=document.addProfileForm.username.value;
+	  var password=document.addProfileForm.password.value;
+	  var email=document.addProfileForm.email.value;
+	  var gender=document.addProfileForm.gender.value;
+	  var image=document.addProfileForm.image.value;
+	  console.log(username);
+	  console.log(password);
+	  console.log(email);
+	  console.log(gender);
+	  //data is ready to send to the server
+	  var data="username="+username+"&password="+password+"&email="+email+"&gender="+gender+"&image="+image	;
+	  var xhttp=new XMLHttpRequest();
+		//login = this is url-pattern of the servlet
+		 xhttp.onreadystatechange =function() {
+			if (this.readyState == 4 && this.status == 200) { //this.readyState == 4 && this.status == 200 ->> data has come at client side successfully
+						//text data as a json coming from server  
+						var response=this.responseText;  //this.responseText ->> is response coming from servlet url-pattern
+						var data=JSON.parse(response);
+						if(data.status=='success'){
+							//Write code to add one row into table
+							   var cor=document.getElementById("noOfRecord").innerHTML;
+							   cor=parseInt(cor)+1;
+							   document.getElementById("noOfRecord").innerHTML=cor;
+							  var content="";
+							  var pid=data.nextPid;
+							  content=content+'<tr   id="'+pid+'">';
+							  content=content+' <td>&nbsp;'+cor+'</td>';
+							  content=content+'<td>&nbsp;'+username+'</td>';
+							  content=content+'<td>&nbsp;'+password+'</td>';
+							  content=content+'<td>&nbsp;'+email+'</td>';
+							  content=content+'<td>&nbsp;'+gender+'</td>';
+							  content=content+'<td>&nbsp;<img src="'+image+'" style="height:50px;"></td>';
+							  content=content+'<td>&nbsp;<a href="javascript:deleteProfile('+pid+');"><img src="img/delete.png" style="height:40px;"/><a></td>';
+							  content=content+'</tr>';
+							  var oldContent=document.getElementById("myContents").innerHTML;
+							  var totalContent=oldContent+content
+							  document.getElementById("myContents").innerHTML=totalContent;
+							  document.getElementById("ApplicationMessage").innerHTML="data is uploaded succesfully into the database";
+						}else{
+							document.getElementById("ApplicationMessage").innerHTML="data is not uploaded  into the database!";
+						}
+			}			
+		}
+		xhttp.open("POST", "jsonProfile", true);  //true - I want to make asynchronous call
+		//Hey I am sending data through POST method in the body
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	    xhttp.send(data); //go ahead!
+  }
+  
+  </script>
+  
+  <style>
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #002340;;
+    color: white;
+    text-align: center;
+    font-size: 14px;
+    
+}
+</style>
+  
+</head>
+<body onload="loadingData();">
+  <header style="height: 30px;background-color: #03a9f4;">
+  </header>
+   <br/>
+	<!-- <a href="#" data-toggle="modal" data-target="#addProfileModal"> -->
+	<a href="javascript:openProfileModal();">
+		<img alt="" src="img/add.png" style="height: 80px;margin-right: 60px;"/>
+	</a>
+	<a href="profiles">
+	<img alt="" src="img/profile.png" style="height: 80px;margin-right: 60px;"/>
+	</a>
+	    <a href="login.jsp">
+					<img src="img/login.png" style="height: 80px;margin-right: 60px;" />
+		</a>
+		
+		  <a href="search.jsp">
+					<img src="img/search.png" style="height: 80px;"  />
+		</a>
+	<hr/>
+	
+	<div class="container">
+  <h4 style="display: inline;color: blue;">Profile Listing</h4>
+ <span style="float: right;">
+ <img src="img/profilepic.png" style="height: 40px;"/>  Records  <span id="noOfRecord" style="color:black;font-size: 16px;background-color: yellow;"></span>
+ </span>
+  <span style="color:blue;font-size: 16px;" id="ApplicationMessage"></span>
+  <table class="table table-bordered">
+    <thead>
+      <tr style="background-color: #00bcd4;color:white;">
+        <th>SNo</th>
+        <th>Username</th>
+        <th>Password</th>
+           <th>Email</th>
+        <th>Gender</th>
+          <th>Photo</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody  id="myContents">
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+       <td>&nbsp;</td>
+           <td>&nbsp;</td>
+              <td>&nbsp;</td>
+        <td>&nbsp;</td>
+       <td>&nbsp;</td>
+      </tr>
+          <tr>
+        <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        <td>&nbsp;</td>
+       <td>&nbsp;</td>
+              <td>&nbsp;</td>
+        <td>&nbsp;</td>
+       <td>&nbsp;</td>
+           <td>&nbsp;</td>
+      </tr>
+           <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+       <td>&nbsp;</td>
+              <td>&nbsp;</td>
+        <td>&nbsp;</td>
+       <td>&nbsp;</td>
+      </tr>
+    </tbody>
+  </table>
+  <br/>
+  <br/>
+  <hr/>
+</div>
+<footer class="footer">
+  <p>Copyright © 2018 Angular2. All rights reserved</p>
+</footer>
+
+ <!-- Modal -->
+  <div class="modal fade" id="addProfileModal" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <form id="addProfileForm" name="addProfileForm">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #9ff4ff;">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title" id="title">Add profile page</h4>
+        </div>
+        <div class="modal-body">
+        		<div class="form-group">
+						<label for="tusername">Username</label> 
+						<input type="text"	class="form-control" name="username"  id="username">
+					</div>
+					
+					<div class="form-group">
+						<label for="tpassword">Password</label> <input type="password"	class="form-control" name="password" id="password">
+					</div>
+					
+								<div class="form-group">
+						<label for="email">Email</label> <input type="email"	class="form-control" name="email" id="email">
+					</div>
+					<div class="form-group">
+						<label for="gender">Gender</label> 
+						<select class="form-control" name="gender">
+								<option>Male</option>
+								<option>Female</option>
+						</select>
+					</div>
+					
+						<div class="form-group">
+						<label for="image">Image</label> 
+						<input type="text"	class="form-control" name="image" id="image">
+						<img src=""  id="myphoto" style="height: 50px;"> 
+					</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-info" data-dismiss="modal" onclick="uploadProfile();"  id="bname">Submit</button>
+        </div>
+      </div>
+      </form>
+    </div>
+  </div>
+  <!-- Modal end -->
+</body>
+</html>
