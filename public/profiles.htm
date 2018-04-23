@@ -9,6 +9,24 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script type="text/javascript">
   
+	function updateProfile() {
+			//This method reading data in the query string format
+			//==>> since addProfileForm is precede with # so it must be id of component!
+			alert("@)@************^^^^^^^^^^^^^^^^^^^^^^^");
+			var pdata=$("#addProfileForm").serialize();
+			var mobo="03204304320"
+			pdata=pdata+"&mobile="+mobo;
+			alert(pdata);
+			$.ajax({type: 'PUT', url: "http://localhost:3000/profiles", data: pdata,success: function(resonseFromServer){ 
+				console.log(resonseFromServer);
+				//document.getElementById("message").innerHTML=	
+				$("#message").html("Hey! your profile has been updated successfully into the database!!!!!!!!!!!!!!!");
+				//
+		    	//   $("#myContents").append(tempData);
+			}});
+		}
+  
+  
   		function addProfile() {
   			//This method reading data in the query string format
   			//==>> since addProfileForm is precede with # so it must be id of component! 
@@ -38,9 +56,10 @@
   		//html();  - button , div,span 
   		function openProfileModel(flag=0) {
   			if(flag!=0) {
-  				$("#bname").html("Update Profile");
-  				$("#_id").val(flag);
-  				$.getJSON("http://localhost:3000/profile?_id="+flag, function(profile) {
+  					$("#bname").html("Update Profile");
+  					$("#bname").attr("onclick",'updateProfile()');
+  					$("#_id").val(flag); //setting the values in the hidden field
+  					$.getJSON("http://localhost:3000/profile?_id="+flag, function(profile) {
   					  console.log(profile);
   					  $("#username").val(profile.username);
   					$("#password").val(profile.password);

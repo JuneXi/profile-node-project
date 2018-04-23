@@ -46,7 +46,37 @@ functionToConnDb();
 //POST - Form --->>> In post data comes inside the body
 //var username = req.query.username  can be used only for GET method due to header
 
+
 var ProfileSchema=require('./entity/profile-schema');
+app.put("/profiles",function(req,res) {
+	console.log("@)@)@)#)cool!!!!!!!!!!!!!!");
+	var _id = req.body._id;
+	
+	var mobile = req.body.mobile;
+	var username = req.body.username;
+	var password = req.body.password;
+	var email = req.body.email;
+	var gender = req.body.gender;
+	var photo = req.body.photo;
+	console.log("_id= "+_id);
+	
+	console.log("mobile= "+mobile);
+	console.log("username= "+username);
+	console.log("password= "+password);
+	console.log("email= "+email);
+	console.log("gender= "+gender);
+	console.log("photo= "+photo);
+	/// set username = 'starlord88' where 
+	ProfileSchema.findByIdAndUpdate(_id, { username: username,password:password,email:email,gender:gender,photo:photo}, function(err, profile) {
+		console.log(profile);
+		if(err) {
+			console.log(err);
+		}else{
+			var data={status:"success",message:"Hey! your profile has been updated successfully into the database!!!!!!!!!!!!!!!"};
+			res.json(data);
+		}
+	});
+});
 
 app.post("/profiles",function(req,res) {
 	console.log("@)@)@)#)cool!!!!!!!!!!!!!!");
@@ -101,6 +131,21 @@ app.get("/profiles",function(req,res) {
 				  res.json(results);
 			  }
 		});
+});
+
+app.delete("/profiles",function(req,res) {
+	var _id = req.query._id;
+	console.log("_id= "+_id);
+	//	ProfileSchema.findByIdAndRemove({_id},function(err){
+	//}
+	ProfileSchema.findOneAndRemove({_id:_id},function(err){
+		  if(err){
+			  console.log(err);
+		  }else{
+				var data={status:"success",message:"Hey! your profile has been deleted successfully into the database!!!!!!!!!!!!!!!"};
+				res.json(data);
+		  }
+	});
 });
 
 app.get("/fact",function(req,res) {
