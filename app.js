@@ -29,7 +29,7 @@ functionToConnDb();
 
 ///This is imported here
 //profile-mapping file contains function definition 
-var profileMapping=require('./rest-api/controller/profile-mapping');
+var profileMapping=require('./rest-api/mappings/profile-mapping');
 profileMapping(app); //here we are calling function
 ///#####################
 //__dirname
