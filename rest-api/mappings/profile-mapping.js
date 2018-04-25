@@ -10,4 +10,5 @@ module.exports = function(app) {
 	app.get("/frog",ProfileService.getFrog);
 	app.get("/greeting",ProfileService.greeting);
 	app.get("/cool",ProfileService.cool);
+	app.post("/auth",ProfileService.authUser);
 };

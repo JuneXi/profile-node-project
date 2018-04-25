@@ -26,11 +26,15 @@ var functionToConnDb=require('./mongo-connect');
 //call the function to connect with database
 functionToConnDb();
 
-
 ///This is imported here
 //profile-mapping file contains function definition 
+var endPoint = express.Router();
 var profileMapping=require('./rest-api/mappings/profile-mapping');
-profileMapping(app); //here we are calling function
+profileMapping(endPoint); //here we are calling function
+
+//here endpoint will be prefix with  v1
+app.use('/v1', endPoint);
+
 ///#####################
 //__dirname
 app.use(express.static(path.join(__dirname, 'public')));

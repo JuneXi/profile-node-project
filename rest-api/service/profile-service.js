@@ -114,6 +114,22 @@ exports.getFrog=function(req,res) {
 	res.json(frog);  //res.json(frog);	 ->> first of all frog JavaScript is converted into JSON format and finally it is written into the response	
 };
 
+//Here data is coming in JSON format first time
+exports.authUser=function(req,res) {
+	var userData=req.body;
+	var username=userData.username;
+	var password=userData.password;
+	console.log("username = "+username);
+	console.log("password = "+password);
+	if(username==='nagen' && password==='test') {
+		   res.status(200).json({status:"success",message:"Hey you are my friend!!!!!!!!!!!!!!!!!"});
+	}else{
+		   res.status(200).json({status:"fail",message:"Sorry, you are my not friend!!!!!!!!!!!!!!!!!"});
+	}
+};
+
+
+
 
 exports.greeting=function(req,res) {
 	res.send("Hey!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
