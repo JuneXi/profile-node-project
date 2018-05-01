@@ -26,11 +26,25 @@ var functionToConnDb=require('./mongo-connect');
 //call the function to connect with database
 functionToConnDb();
 
+//To allow access of this data from different domain
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept,x-access-token");
+  res.header("Access-Control-Allow-Credentials", "*");
+  //res.header("Access-Control-Allow-Headers", "*");
+  res.header("Access-Control-Expose-Headers", "x-access-token");
+  next();
+});	
+
 ///This is imported here
 //profile-mapping file contains function definition 
 var endPoint = express.Router();
 var profileMapping=require('./rest-api/mappings/profile-mapping');
 profileMapping(endPoint); //here we are calling function
+
+var productMapping=require('./rest-api/mappings/product-mapping');
+productMapping(endPoint); //here we are calling function
 
 //here endpoint will be prefix with  v1
 app.use('/v1', endPoint);
