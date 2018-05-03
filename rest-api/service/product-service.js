@@ -34,3 +34,20 @@ exports.addProduct=function(req,res) {
 			  }
 	});
 };
+
+////?_id
+///products/:papa
+exports.deleteProductById=function(req,res) {
+	var _id = req.params.papa;
+	console.log("_id= "+_id);
+	//	ProfileSchema.findByIdAndRemove({_id},function(err){
+	//}
+	ProductSchema.findOneAndRemove({_id:_id},function(err){
+		  if(err){
+			  console.log(err);
+		  }else{
+				var data={status:"success",message:"Hey! your profile has been deleted successfully into the database!!!!!!!!!!!!!!!"};
+				res.json(data);
+		  }
+	});
+};
