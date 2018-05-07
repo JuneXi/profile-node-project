@@ -40,11 +40,17 @@ app.use(function(req, res, next) {
 ///This is imported here
 //profile-mapping file contains function definition 
 var endPoint = express.Router();
+
+var authMapping=require('./rest-api/mappings/auth-mapping');
+authMapping(endPoint); //here we are calling function
+
+
 var profileMapping=require('./rest-api/mappings/profile-mapping');
 profileMapping(endPoint); //here we are calling function
 
 var productMapping=require('./rest-api/mappings/product-mapping');
 productMapping(endPoint); //here we are calling function
+
 
 //here endpoint will be prefix with  v1
 app.use('/v1', endPoint);
