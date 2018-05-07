@@ -1,5 +1,21 @@
 var ProductSchema=require('../../entity/product-schema');
 
+
+		exports.updateProduct=function(req,res) {
+	var product=req.body;
+	var _id=product._id;
+	ProductSchema.findByIdAndUpdate(_id, { pid: product.pid,name:product.name,image:product.image,price:product.price,store:product.store,mfg:product.mfg}, function(err, profile) {
+		console.log(profile);
+		if(err) {
+			console.log(err);
+		}else{
+			var data={status:"success",message:"Hey! your profile has been updated successfully into the database!!!!!!!!!!!!!!!"};
+			res.json(data);
+		}
+	});
+};
+
+
 exports.addProduct=function(req,res) {
 	var product=req.body;
 	var entity=new ProductSchema();

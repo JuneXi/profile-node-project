@@ -6,11 +6,12 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "crypto": "*",
     "express": "^4.11.0",
-    "nodemon": "^1.17.2",
     "mongodb": "*",
     "mongoose": "*",
-    "nodemailer": "^4.0.1"
+    "nodemailer": "^4.0.1",
+    "nodemon": "^1.17.2"
   }
 }
