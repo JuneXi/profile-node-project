@@ -1,5 +1,27 @@
 var nodemailer = require('nodemailer');
 var UserSchema=require('../../entity/user-schema');
+var ProfileSchema=require('../../entity/profile-schema');
+
+exports.authUser=function(req,res) {
+	var pusername=req.body.username;
+	var ppassword=req.body.password;
+	ProfileSchema.find({username:pusername,password:ppassword},function(error,results){
+		 var data={};
+		if(error){
+			  console.log(error);
+			  data={status:"fail",message:error};
+			  res.status(500).json(data);
+		  }else{
+			  if(results.length===0) {
+				  	data={status:"fail",message:"Sorry , this user does not exist into the database"};
+			  }else{
+				  data={status:"pass",message:"Congratulations ,You are a valid user!"};  
+			  }
+			  res.status(200).json(data);
+		  }
+	});
+};
+
 exports.sentEmailVarification=function(req,res) {
 	var user=req.body;
 	var entity=new UserSchema();
