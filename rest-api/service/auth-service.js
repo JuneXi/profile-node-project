@@ -15,7 +15,7 @@ exports.authUser=function(req,res) {
 			  if(results.length===0) {
 				  	data={status:"fail",message:"Sorry , this user does not exist into the database"};
 			  }else{
-				  data={status:"pass",message:"Congratulations ,You are a valid user!"};  
+				  data={status:"pass",message:"Congratulations ,You are a &&&&&&&&^#)))))))))))))))))))))))))))))))))valid user!"};  
 			  }
 			  res.status(200).json(data);
 		  }
