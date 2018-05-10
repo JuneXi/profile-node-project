@@ -53,7 +53,7 @@ productMapping(endPoint); //here we are calling function
 
 
 //here endpoint will be prefix with  v1
-app.use('/v1', endPoint);
+app.use('/api/v1', endPoint);
 
 ///#####################
 //__dirname
